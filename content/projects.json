@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "title": "My MVP Portfolio",
+    "description": "My first personal website built with Next.js 15, Tailwind, and Vercel.",
+    "tech": ["Next.js", "Tailwind", "Vercel"],
+    "link": "https://github.com/NguyetQue1211/my-portfolio"
+  },
+  {
+    "id": 2,
+    "title": "Full Stack Open",
+    "description": "Learning modern React, Redux, Node.js, and GraphQL.",
+    "tech": ["React", "Node.js", "MongoDB"],
+    "link": "https://fullstackopen.com/"
+  }
+]
