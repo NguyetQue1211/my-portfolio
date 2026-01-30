@@ -1,6 +1,5 @@
 import { promises as fs } from 'fs';
 import path from 'path';
-import Navbar from '@/components/Navbar';
 
 async function getProjects() {
   const filePath = path.join(process.cwd(), 'content', 'projects.json');
@@ -20,8 +19,6 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen max-w-5xl mx-auto px-6 font-sans">
-      <Navbar />
-
       {/* --- BIO SECTION (Text Heavy) --- */}
       <section id="bio" className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-24">
         <div className="md:col-span-4">
@@ -30,10 +27,10 @@ export default async function Home() {
         </div>
         <div className="md:col-span-8 flex flex-col justify-center">
           <h1 className="font-serif text-4xl md:text-5xl mb-6 leading-tight">
-            Quế Phan Building digital experiences that bridge <span className="italic text-gray-500">art</span> and <span className="italic text-gray-500">code</span>.
+            Building digital experiences that bridge <span className="italic text-gray-500">real life problems</span> and <span className="italic text-gray-500">solutions</span>.
           </h1>
           <p className="text-lg text-gray-600 leading-relaxed max-w-2xl">
-            Born and raised in Vietnam, I am a software engineer interested in the interactions between data and design. 
+            Born and raised in Vietnam, I am a product manager interested in the interactions between data and design. 
             Currently exploring Next.js, Cloudflare, and Building LLMs.
           </p>
         </div>
@@ -78,7 +75,7 @@ export default async function Home() {
 
       {/* --- INSIGHTS SECTION (Simple List) --- */}
       <section id="insights" className="mb-24 max-w-2xl">
-        <h2 className="font-serif text-2xl mb-8 border-b pb-2">Writing</h2>
+        <h2 className="font-serif text-2xl mb-8 border-b pb-2">Insight</h2>
         <ul className="space-y-6">
           {insights.map((filename: string) => (
             <li key={filename} className="group flex justify-between items-baseline cursor-pointer">
@@ -91,9 +88,6 @@ export default async function Home() {
         </ul>
       </section>
       
-      <footer className="py-12 text-center text-sm text-gray-400 font-mono">
-        © 2026 Laura Phan. Built with Next.js & Vercel.
-      </footer>
     </main>
   );
 }
