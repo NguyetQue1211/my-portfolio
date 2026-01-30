@@ -1,18 +1,17 @@
 import { promises as fs } from 'fs';
 import path from 'path';
+import Navbar from '@/components/Navbar';
 
-// 1. Function to read your Projects
 async function getProjects() {
-  const filePath = path.join(process.cwd(), 'content/projects.json');
-  const file = await fs.readFile(filePath, 'utf8');
-  return JSON.parse(file);
+  const filePath = path.join(process.cwd(), 'content', 'projects.json');
+  const data = await fs.readFile(filePath, 'utf-8');
+  return JSON.parse(data);
 }
 
-// 2. Function to read your Insights (Blog)
 async function getInsights() {
-  const insightsDir = path.join(process.cwd(), 'content/insights');
-  const filenames = await fs.readdir(insightsDir);
-  return filenames.filter((file) => file.endsWith('.md'));
+  const insightsDir = path.join(process.cwd(), 'content', 'insights');
+  const files = await fs.readdir(insightsDir);
+  return files.filter(file => file.endsWith('.md'));
 }
 
 export default async function Home() {
@@ -20,51 +19,81 @@ export default async function Home() {
   const insights = await getInsights();
 
   return (
-    <main className="min-h-screen p-8 max-w-4xl mx-auto font-sans">
-      {/* --- PROFILE SECTION --- */}
-      <section className="mb-16">
-        <h1 className="text-5xl font-bold mb-4">Laura Phan</h1>
-        <p className="text-xl text-gray-600 dark:text-gray-300">
-          Software Engineer & Full Stack Learner.
-        </p>
+    <main className="min-h-screen max-w-5xl mx-auto px-6 font-sans">
+      <Navbar />
+
+      {/* --- BIO SECTION (Text Heavy) --- */}
+      <section id="bio" className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-24">
+        <div className="md:col-span-4">
+           {/* Placeholder for a photo if you want one, or leave empty for whitespace */}
+           <div className="w-full aspect-[3/4] bg-gray-100 rounded-sm"></div>
+        </div>
+        <div className="md:col-span-8 flex flex-col justify-center">
+          <h1 className="font-serif text-4xl md:text-5xl mb-6 leading-tight">
+            Quế Phan Building digital experiences that bridge <span className="italic text-gray-500">art</span> and <span className="italic text-gray-500">code</span>.
+          </h1>
+          <p className="text-lg text-gray-600 leading-relaxed max-w-2xl">
+            Born and raised in Vietnam, I am a software engineer interested in the interactions between data and design. 
+            Currently exploring Next.js, Cloudflare, and Building LLMs.
+          </p>
+        </div>
       </section>
 
-      {/* --- PROJECTS SECTION --- */}
-      <section className="mb-16">
-        <h2 className="text-3xl font-bold mb-6 border-b pb-2">Projects</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* --- WORK SECTION (Gallery Grid) --- */}
+      <section id="projects" className="mb-24">
+        <div className="flex items-baseline justify-between mb-8 border-b pb-2">
+          <h2 className="font-serif text-2xl">Selected Work</h2>
+          <span className="text-sm text-gray-400">{projects.length} Projects</span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
           {projects.map((project: any) => (
-            <div key={project.id} className="border p-6 rounded-lg hover:shadow-lg transition">
-              <h3 className="text-xl font-semibold">{project.title}</h3>
-              <p className="text-gray-600 dark:text-gray-400 mt-2 text-sm">
-                {project.description}
-              </p>
-              <div className="mt-4 flex gap-2">
-                {project.tech.map((t: string) => (
-                  <span key={t} className="px-2 py-1 bg-gray-100 dark:bg-gray-800 text-xs rounded">
-                    {t}
-                  </span>
-                ))}
+            <div key={project.id} className="group cursor-pointer">
+              {/* Replace the gray div with this: */}
+              {project.image ? (
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full aspect-video object-cover mb-4 grayscale hover:grayscale-0"
+                />
+              ) : (
+                <div className="w-full aspect-video bg-gray-100 mb-4" />
+              )}
+              
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="font-medium text-lg group-hover:underline decoration-1 underline-offset-4">
+                    {project.title}
+                  </h3>
+                  <p className="text-sm text-gray-500 mt-1">{project.description}</p>
+                </div>
+                <span className="text-xs font-mono text-gray-400 border px-2 py-0.5 rounded-full">
+                  2024
+                </span>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* --- INSIGHTS SECTION --- */}
-      <section>
-        <h2 className="text-3xl font-bold mb-6 border-b pb-2">Insights</h2>
-        <ul className="space-y-4">
+      {/* --- INSIGHTS SECTION (Simple List) --- */}
+      <section id="insights" className="mb-24 max-w-2xl">
+        <h2 className="font-serif text-2xl mb-8 border-b pb-2">Writing</h2>
+        <ul className="space-y-6">
           {insights.map((filename: string) => (
-            <li key={filename} className="p-4 border-l-4 border-blue-500 bg-gray-50 dark:bg-gray-900">
-              <p className="font-medium text-lg capitalize">
+            <li key={filename} className="group flex justify-between items-baseline cursor-pointer">
+              <span className="text-lg group-hover:text-blue-600 transition">
                 {filename.replace('.md', '').replace(/-/g, ' ')}
-              </p>
-              <p className="text-sm text-gray-500">Read more →</p>
+              </span>
+              <span className="text-sm font-mono text-gray-400">Jan 29</span>
             </li>
           ))}
         </ul>
       </section>
+      
+      <footer className="py-12 text-center text-sm text-gray-400 font-mono">
+        © 2026 Laura Phan. Built with Next.js & Vercel.
+      </footer>
     </main>
   );
 }
